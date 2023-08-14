@@ -1,7 +1,6 @@
 import os
 from time import sleep
 from sys import exit
-from subprocess import check_output
 
 pcName = input('Введите имя ПК:')
 qwinsta = 'cmd /c qwinsta /server:' + (pcName)

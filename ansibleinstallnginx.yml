@@ -22,8 +22,9 @@
 
     - name: install nginx
       apt: name=nginx state=latest
+      
     when: ansible_os_family == "Debian"
-    
+
   - name: Copy page
     copy: src={{ source_file }} dest={{ dest_file }} 
   

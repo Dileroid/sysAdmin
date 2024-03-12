@@ -1,0 +1,35 @@
+
+---
+- name: install nginx and upload page&config
+  hosts: PROD
+  become: yes
+
+  vars:
+    source_webpage_file: ./mywebsite/index.html
+    dest_webpage_file: /var/www/html
+    source_config_file: ./config/default
+    dest_config_file: /etc/nginx/sites-available/
+
+  tasks:
+  - name: chek os distro
+    debug: var=ansible_os_family
+
+  - name: add repository
+    apt_repository:
+      repo: ppa:nginx/stable
+    when: ansible_os_family == "Debian"
+
+  - name: install nginx
+    apt: name=nginx state=latest
+    when: ansible_os_family == "Debian"
+
+  - name: Copy page
+    copy: src={{ source_file }} dest={{ dest_file }} 
+  
+  - name: Copy config
+    copy: src={{ source_config_file }} dest={{ dest_config_file }} 
+    notify: restart nginx
+
+  handlers:
+  - name: restart nginx
+    service: name=nginx state=restarted

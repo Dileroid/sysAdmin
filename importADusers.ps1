@@ -1,7 +1,7 @@
 Import-Module ActiveDirectory
 
-$Domain="@minstroy.nobl"
-$UserOu="OU=Users,DC=minstroy,DC=nobl"
+$Domain="@"
+$UserOu=""
 $NewUsersList=Import-CSV "C:\Users\Администратор\Desktop\1.2AD.csv" -Delimiter ";"
 
 ForEach ($User in $NewUsersList) {

@@ -14,15 +14,16 @@
   - name: check os distro
     debug: var=ansible_os_family
 
-  - name: add repository
-    apt_repository:
-      repo: ppa:nginx/stable
-    when: ansible_os_family == "Debian"
+  - block:
 
-  - name: install nginx
-    apt: name=nginx state=latest
-    when: ansible_os_family == "Debian"
+    - name: add repository
+      apt_repository:
+        repo: ppa:nginx/stable
 
+    - name: install nginx
+      apt: name=nginx state=latest
+    when: ansible_os_family == "Debian"
+    
   - name: Copy page
     copy: src={{ source_file }} dest={{ dest_file }} 
   

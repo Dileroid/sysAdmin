@@ -11,7 +11,7 @@
     dest_config_file: /etc/nginx/sites-available/
 
   tasks:
-  - name: chek os distro
+  - name: check os distro
     debug: var=ansible_os_family
 
   - name: add repository

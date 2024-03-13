@@ -22,6 +22,7 @@
 
     - name: install nginx
       apt: name=nginx state=latest
+    when: var=ansible_os_family
 
   - name: Copy page
     copy: src={{ source_webpage_file }} dest={{ dest_webpage_file }} 

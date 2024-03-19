@@ -1,0 +1,60 @@
+---
+- name: Тестовый плейбук МТС
+  hosts: MTS
+  become: yes
+
+  vars: 
+    service: nginx.service
+
+  tasks:
+
+  - name:
+    service_facts:
+
+  - name: Запись строки в лог
+    lineinfile:
+      path: /var/log/mts/mts.log
+      line: "{{ ansible_date_time.time }}: {{ 'OK' if ansible_facts.services['nginx.service'].state == 'running' else 'сервис недоступен' }}"
+    delegate_to: localhost
+
+  - name: Перезапуск, если сервис недоступен
+    service:
+      name: "nginx"
+      state: restarted
+    ignore_errors: true
+    when: ansible_facts.services['nginx.service'].state == "stopped" or ansible_facts.services['nginx.service'].state == "failed"
+    notify:
+      - Запись строки в лог
+
+  - name:
+    service_facts:
+
+  - block:
+
+    - name: Запись строки в лог
+      lineinfile:
+        path: /var/log/mts/mts.log
+        line: "{{ ansible_date_time.time }}: {{ 'OK' if ansible_facts.services['nginx.service'].state == 'running' else 'сервис недоступен после перезапуска' }}"
+      delegate_to: localhost
+
+    - name:
+      community.general.mail:
+        host: smtp.gmail.com
+        port: 587
+        username: jaderkdileroid@gmail.com
+        password: axyd ygsy hpck sqvw
+        to: Kirill Derksen <jaderkdileroid@gmail.com>
+        subject: Сервис не запущен
+        body: Сервис "{{service}}" недоступен
+
+    when: ansible_facts.services['nginx.service'].state == "stopped" or ansible_facts.services['nginx.service'].state == "failed"
+
+
+  handlers:
+
+  - name: Запись строки в лог
+    lineinfile:
+      path: /var/log/mts/mts.log
+      line: "{{ ansible_date_time.time }}: OK сервис восстановлен после перезапуска"
+    delegate_to: localhost
+

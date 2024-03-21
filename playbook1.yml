@@ -1,6 +1,6 @@
 ---
-- name: Тестовый плейбук МТС
-  hosts: MTS
+- name: #
+  hosts: PROD
   become: yes
 
   vars: 
@@ -42,7 +42,7 @@
         host: smtp.gmail.com
         port: 587
         username: jaderkdileroid@gmail.com
-        password: axyd ygsy hpck sqvw
+        password: #
         to: Kirill Derksen <jaderkdileroid@gmail.com>
         subject: Сервис не запущен
         body: Сервис "{{service}}" недоступен

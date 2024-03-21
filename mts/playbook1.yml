@@ -1,6 +1,6 @@
 ---
-- name: Тестовый плейбук МТС
-  hosts: MTS
+- name: #
+  hosts: PROD
   become: yes
 
   vars: 
